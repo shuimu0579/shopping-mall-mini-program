@@ -1,0 +1,22 @@
+{
+  "name": "shopping-mall-mini-program",
+  "version": "1.0.0",
+  "description": "- 2020.11.07开始这个小程序的开发",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shuimu0579/shopping-mall-mini-program.git"
+  },
+  "author": "suimu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shuimu0579/shopping-mall-mini-program/issues"
+  },
+  "homepage": "https://github.com/shuimu0579/shopping-mall-mini-program#readme",
+  "dependencies": {
+    "@vant/weapp": "^1.5.2"
+  }
+}
