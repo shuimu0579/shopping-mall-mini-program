@@ -1,11 +1,17 @@
-// pages/deployFunctions/deployFunctions.js
+// miniprogram/pages/index/index.js
+import area from "../../lib/area"
+
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
+    areaList:area
+  },
 
+  onAreaConfirm(e){
+    console.log(e.detail);
   },
 
   /**
