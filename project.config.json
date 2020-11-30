@@ -4,15 +4,15 @@
     "ignore": []
   },
   "setting": {
-    "urlCheck": true,
+    "urlCheck": false,
     "es6": true,
-    "enhance": true,
+    "enhance": false,
     "postcss": true,
     "preloadBackgroundData": false,
     "minified": true,
-    "newFeature": true,
+    "newFeature": false,
     "coverView": true,
-    "nodeModules": true,
+    "nodeModules": false,
     "autoAudits": false,
     "showShadowRootInWxmlPanel": true,
     "scopeDataCheck": false,
@@ -37,51 +37,34 @@
     "minifyWXSS": true
   },
   "compileType": "miniprogram",
-  "libVersion": "2.8.1",
+  "libVersion": "2.14.0",
   "appid": "wx6a37aa7eedd1378b",
-  "projectname": "shopping-mall-mini-program",
-  "miniprogramRoot": "miniprogram/",
-  "cloudfunctionRoot": "cloudfunctions/",
-  "cloudfunctionTemplateRoot": "",
-  "watchOptions": {
-    "ignore": []
-  },
+  "projectname": "test",
   "debugOptions": {
     "hidedInDevtools": []
   },
   "scripts": {},
+  "isGameTourist": false,
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
   "condition": {
-    "plugin": {
+    "search": {
+      "list": []
+    },
+    "conversation": {
       "list": []
     },
     "game": {
+      "list": []
+    },
+    "plugin": {
       "list": []
     },
     "gamePlugin": {
       "list": []
     },
     "miniprogram": {
-      "list": [
-        {
-          "id": -1,
-          "name": "db guide",
-          "pathName": "pages/databaseGuide/databaseGuide",
-          "query": ""
-        },
-        {
-          "name": "pages/4.1/index",
-          "pathName": "pages/4.1/index",
-          "query": "",
-          "scene": null
-        },
-        {
-          "name": "pages/category/index",
-          "pathName": "pages/category/index",
-          "scene": null
-        }
-      ]
+      "list": []
     }
   }
 }
