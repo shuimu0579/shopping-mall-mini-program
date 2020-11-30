@@ -1,5 +1,6 @@
 {
   "pages": [
+    "pages/category/index",
     "pages/4.1/index"
   ],
   "window": {
