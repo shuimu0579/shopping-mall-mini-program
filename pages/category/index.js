@@ -2,7 +2,7 @@ Page({
   data: {
     vtabs: [],
     activeTab: 0,
-    goodsListMap:{},
+    goodsListMap:{}
   },
 
   async onLoad() {
@@ -29,34 +29,57 @@ Page({
     // })
     for(let j=0;j<categoriesData.length;j++){
       let item = categoriesData[j]
-      await this.getGoodsListByCategory(item.id)
+      if (j<3) this.getGoodsListByCategory(item.id,j)
+      // await this.getGoodsListByCategory(item.id)
       vtabs.push({title: item.category_name, id: item.id})
     }
     this.setData({vtabs})
  
   },
 
-  async getGoodsListByCategory(categoryId){
-    let goodsData = await wx.wxp.request({
-      url: `http://localhost:3000/goods/goods?page_index=1&page_size=10&category_id=${categoryId}`,
-    })
-    if (goodsData){
-      console.log('goodsData...', goodsData)
-      goodsData = goodsData.data.data.rows;
-    }
-    this.setData({
-      [`goodsListMap[${categoryId}]`]:goodsData
-    })
-  },
-
   onTabCLick(e) {
     const index = e.detail.index
     console.log('tabClick', index)
+    this.onCategoryChanged(index)
   },
 
   onChange(e) {
     const index = e.detail.index
     console.log('change', index)
+    this.onCategoryChanged(index)
+  },
+
+  onCategoryChanged(index){
+    let cate = this.data.vtabs[index]
+    let categoryId = cate.id
+    if (!this.data.goodsListMap[categoryId]){
+      this.getGoodsListByCategory(categoryId,index)
+    }
+  },
+
+  // 重新计算高度
+  reClacChildHeight(index){
+    // calcChildHeight
+    const goodsContent = this.selectComponent(`#goods-content${index}`)
+    console.log(goodsContent);
+    
+    const categoryVtabs = this.selectComponent('#category-vtabs')
+    categoryVtabs.calcChildHeight(goodsContent)
+  },
+
+  async getGoodsListByCategory(categoryId,index){
+    let goodsData = await wx.wxp.request({
+      url: `http://localhost:3000/goods/goods?page_index=1&page_size=20&category_id=${categoryId}`,
+    })
+    if (goodsData){
+      goodsData = goodsData.data.data.rows;
+    }
+    // console.log(goodsData);
+    this.setData({
+      [`goodsListMap[${categoryId}]`]:goodsData
+    })
+    // this.data.goodsListMap[categoryId] = goodsData
+    this.reClacChildHeight(index)
   }
 
 })
