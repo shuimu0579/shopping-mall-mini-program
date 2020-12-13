@@ -1,5 +1,6 @@
 /* @import '@vant/weapp/common/index.wxss'; */
 @import '/miniprogram_npm/@vant/weapp/common/index.wxss';
+@import './static/style/icon.wxss';
 
 /**app.wxss**/
 .container {
@@ -20,7 +21,6 @@ button:focus{
 button::after{
   border: none;
 }
-
 
 page {
   background: #f6f6f6;
