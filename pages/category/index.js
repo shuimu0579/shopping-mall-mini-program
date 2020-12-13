@@ -3,12 +3,37 @@ Page({
     vtabs: [],
     activeTab: 0,
     goodsListMap:{},
-    lastIndexForLoadMore:-1
+    lastIndexForLoadMore:-1,
+    loading:true
+  },
+
+  async onTapGoods(e){
+    wx.showLoading({
+      title: 'Loading..',
+    })
+    let goodsId = e.currentTarget.dataset.id 
+    let goods = await wx.wxp.request({
+      //10.8.1.16  是本机ip 就是localhost  mac下 ifconfig en0 --> inet 后面就是
+      // url: `http://localhost:3000/goods/goods/${goodsId}`, 
+      url: `http://10.8.1.16:3000/goods/goods/${goodsId}`, 
+    })
+    console.log(goods);
+    
+    if (goods){
+      goods = goods.data.data 
+      wx.navigateTo({
+        url: `/pages/goods/index?goodsId=${goodsId}`,
+        success: function(res) {
+          res.eventChannel.emit('goodsData', { data: goods })
+        }
+      })
+    }
+    wx.hideLoading()
   },
 
   async onLoad() {
     let categoriesData = await wx.wxp.request({
-      url: 'http://localhost:3000/goods/categories',
+      url: 'http://10.8.1.16:3000/goods/categories',
     })
     if (categoriesData){
       categoriesData = categoriesData.data.data;
@@ -34,8 +59,10 @@ Page({
       // await this.getGoodsListByCategory(item.id)
       vtabs.push({title: item.category_name, id: item.id})
     }
-    this.setData({vtabs})
- 
+    this.setData({
+      vtabs,
+      loading:false
+    })
   },
 
   onTabCLick(e) {
@@ -82,7 +109,7 @@ Page({
   async getGoodsListByCategory(categoryId,index, loadNextPage = false){
     console.log(categoryId,index, loadNextPage);
     
-    const pageSize = 10
+    const pageSize = 5 //每页的数据
     let pageIndex = 1
     let listMap = this.data.goodsListMap[categoryId]
     console.log(listMap);
@@ -98,7 +125,7 @@ Page({
       }
     }
     let goodsData = await wx.wxp.request({
-      url: `http://localhost:3000/goods/goods?page_index=${pageIndex}&page_size=${pageSize}&category_id=${categoryId}`,
+      url: `http://10.8.1.16:3000/goods/goods?page_index=${pageIndex}&page_size=${pageSize}&category_id=${categoryId}`,
     })
     if (goodsData){
       goodsData = goodsData.data.data;
