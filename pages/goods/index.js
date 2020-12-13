@@ -102,7 +102,6 @@ Page({
     // 获取及设置选择的规格
     let attrvalue = e.currentTarget.dataset.attrvalue
     let attrKey = e.currentTarget.dataset.attrkey
-
     console.log('attrvalueid',attrvalue,attrKey);
     let selectedAttrValue = this.data.selectedAttrValue
     selectedAttrValue[attrKey] = attrvalue
@@ -131,8 +130,9 @@ Page({
       tempTotalIdValue = 0
       goodsAttrPath.forEach(item=>tempTotalIdValue += item)
       console.log("tempTotalIdValue",tempTotalIdValue);
-
+      // debugger
       if (tempTotalIdValue == totalIdValue){
+        // debugger
         let selectedGoodsSku = goodsSku[j]
         this.setData({
           selectedGoodsSku
