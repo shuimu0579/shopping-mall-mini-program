@@ -1,7 +1,9 @@
 {
   "pages": [
     "pages/category/index",
-    "pages/4.1/index"
+    "pages/recycle/index",
+    "pages/4.1/index",
+    "pages/goods/index"
   ],
   "window": {
     "backgroundColor": "#F6F6F6",

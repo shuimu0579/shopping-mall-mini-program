@@ -1,6 +1,6 @@
 <import src="index.skeleton.wxml"/>
 <template is="skeleton" wx-if="{{loading}}" />
-<mp-vtabs 
+<mp-vtabs wx-else 
   vtabs="{{vtabs}}" 
   activeTab="{{activeTab}}" 
   bindtabclick="onTabCLick"
@@ -13,6 +13,8 @@
 
         <view wx:for="{{goodsListMap[item.id].rows}}" wx:for-index="index2" wx:for-item="item2" wx:key="id">
           <van-card
+            lazy-load bindtap='onTapGoods' data-id="{{item2.id}}"
+            desc="{{item2.goods_desc}}"
             price="{{item2.start_price}}"
             title="{{item2.goods_name}}"
             thumb="{{ item2.goods_infos[0].content }}">

@@ -1,0 +1,8 @@
+/* miniprogram/pages/goods/index.wxss */
+.price .van-cell__title{
+  color: rgba(181,154,81,1);
+  font-size: 20pt;
+}
+.title .van-cell__title{
+  font-size: 17pt;
+}

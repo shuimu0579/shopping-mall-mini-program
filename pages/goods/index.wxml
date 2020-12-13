@@ -1,0 +1,15 @@
+<!--miniprogram/pages/goods/index.wxml-->
+<swiper indicator-dots style="height:300px;">
+	<block wx:for="{{goodsImages}}" wx:key="*this">
+		<swiper-item>
+			<van-image lazy-load slot="loading" fit="cover" width="100%" height="300" src="{{item.content}}" />
+		</swiper-item>
+	</block>
+</swiper>
+<van-cell-group>
+  <van-cell title="￥{{goodsData.start_price}}" border="{{false}}" class="price"></van-cell>
+  <van-cell class="title" center title="{{goodsData.goods_name}}" label="{{goodsData.goods_desc || '描述'}}">
+    <van-button slot="right-icon" type="primary" size="mini">分享</van-button>
+  </van-cell>
+  <van-cell title="全程护航，请放心购买" is-link />
+</van-cell-group>

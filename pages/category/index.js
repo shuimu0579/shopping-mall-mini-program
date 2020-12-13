@@ -32,6 +32,9 @@ Page({
   },
 
   async onLoad() {
+    wx.showLoading({
+      title: 'Loading..',
+    })
     let categoriesData = await wx.wxp.request({
       url: 'http://10.8.1.16:3000/goods/categories',
     })
@@ -63,6 +66,7 @@ Page({
       vtabs,
       loading:false
     })
+    wx.hideLoading()
   },
 
   onTabCLick(e) {
