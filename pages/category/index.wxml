@@ -1,16 +1,23 @@
-<mp-vtabs vtabs="{{vtabs}}" activeTab="{{activeTab}}" bindtabclick="onTabCLick" bindchange="onChange"
-  id="category-vtabs">
-  <block wx:for="{{vtabs}}" wx:key="title">
+<mp-vtabs 
+  vtabs="{{vtabs}}" 
+  activeTab="{{activeTab}}" 
+  bindtabclick="onTabCLick"
+  bindchange="onChange" id="category-vtabs" bindscrolltoindexlower="onScrollToIndexLower"
+>
+  <block wx:for="{{vtabs}}" wx:key="title" >
     <mp-vtabs-content id="goods-content{{index}}" tabIndex="{{index}}">
       <view class="vtabs-content-item">
-        <view style="background-color: inherit;text-align:center">{{item.title}}</view>
-        <view wx:for="{{goodsListMap[item.id]}}" wx:for-index="index2" wx:for-item="item2" wx:key="id">
-          <van-card price="{{item2.start_price}}" title="{{item2.goods_name}}"
+        <view style="background: transparent;background-color: #ffffff;text-align: center;line-height:50px;">{{item.title}}</view>
+
+        <view wx:for="{{goodsListMap[item.id].rows}}" wx:for-index="index2" wx:for-item="item2" wx:key="id">
+          <van-card
+            price="{{item2.start_price}}"
+            title="{{item2.goods_name}}"
             thumb="{{ item2.goods_infos[0].content }}">
-            <view slot="footer">
-              <van-icon size="22px" name="shopping-cart-o" />
-              <!-- <van-button size="mini">购买</van-button> -->
-            </view>
+          <view slot="footer">
+            <van-icon size="22px" name="shopping-cart-o" />
+            <!-- <van-button size="mini">购买</van-button> -->
+          </view>
           </van-card>
         </view>
       </view>

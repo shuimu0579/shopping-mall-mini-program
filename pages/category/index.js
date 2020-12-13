@@ -2,7 +2,8 @@ Page({
   data: {
     vtabs: [],
     activeTab: 0,
-    goodsListMap:{}
+    goodsListMap:{},
+    lastIndexForLoadMore:-1
   },
 
   async onLoad() {
@@ -12,7 +13,7 @@ Page({
     if (categoriesData){
       categoriesData = categoriesData.data.data;
     }
-    console.log(categoriesData);
+    // console.log(categoriesData);
     
     // const titles = ['热搜推荐', '手机数码', '家用电器',
     //   '生鲜果蔬', '酒水饮料', '生活美食', 
@@ -56,28 +57,69 @@ Page({
       this.getGoodsListByCategory(categoryId,index)
     }
   },
+  onScrollToIndexLower(e){
+    console.log("scroll to index lower",e.detail);
+    let index = e.detail.index;
+    // 这是一个多发事件
+    if (index != this.data.lastIndexForLoadMore){
+      let cate = this.data.vtabs[index]
+      let categoryId = cate.id
+      this.getGoodsListByCategory(categoryId,index, true)
+      this.data.lastIndexForLoadMore = index 
+    }
+  },
 
   // 重新计算高度
   reClacChildHeight(index){
     // calcChildHeight
     const goodsContent = this.selectComponent(`#goods-content${index}`)
-    console.log(goodsContent);
+    // console.log(goodsContent);
     
     const categoryVtabs = this.selectComponent('#category-vtabs')
     categoryVtabs.calcChildHeight(goodsContent)
   },
 
-  async getGoodsListByCategory(categoryId,index){
+  async getGoodsListByCategory(categoryId,index, loadNextPage = false){
+    console.log(categoryId,index, loadNextPage);
+    
+    const pageSize = 10
+    let pageIndex = 1
+    let listMap = this.data.goodsListMap[categoryId]
+    console.log(listMap);
+    
+    if (listMap){
+      console.log(listMap.count);
+      
+      // 加载完了，就不要重复加载了
+      if (listMap.rows.length >= listMap.count) return 
+      if (listMap.pageIndex){
+        pageIndex = listMap.pageIndex
+        if (loadNextPage) pageIndex++
+      }
+    }
     let goodsData = await wx.wxp.request({
-      url: `http://localhost:3000/goods/goods?page_index=1&page_size=20&category_id=${categoryId}`,
+      url: `http://localhost:3000/goods/goods?page_index=${pageIndex}&page_size=${pageSize}&category_id=${categoryId}`,
     })
     if (goodsData){
-      goodsData = goodsData.data.data.rows;
+      goodsData = goodsData.data.data;
     }
     // console.log(goodsData);
-    this.setData({
-      [`goodsListMap[${categoryId}]`]:goodsData
-    })
+    if (listMap){
+      listMap.pageIndex = pageIndex
+      listMap.count = goodsData.count
+      listMap.rows.push(...goodsData.rows)
+      console.log(listMap);
+      
+      this.setData({
+        [`goodsListMap[${categoryId}]`]:listMap
+      })
+    }else{
+      goodsData.pageIndex = pageIndex
+      this.setData({
+        [`goodsListMap[${categoryId}]`]:goodsData
+      })
+    }
+    
     // this.data.goodsListMap[categoryId] = goodsData
     this.reClacChildHeight(index)
   }
