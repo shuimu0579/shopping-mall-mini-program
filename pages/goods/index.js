@@ -18,16 +18,16 @@ Page({
   },
 
     // 测试返回对象
-    // requestHomeApiByReq4(e){
-    //   getApp().wxp.request4({
-    //     url: 'http://10.8.1.117:3000/user/home',
-    //     onReturnObject(rtn){
-    //       // rtn.abort()
-    //     }
-    //   }).catch(err=>{
-    //     console.log(err);
-    //   })
-    // },
+    requestHomeApiByReq4(e){
+      getApp().wxp.request4({
+        url: 'http://10.8.1.117:3000/user/home',
+        onReturnObject(rtn){
+          // rtn.abort()
+        }
+      }).catch(err=>{
+        console.log(err);
+      })
+    },
 
     async addToCart(e){
       if (!this.data.selectedGoodsSkuObject.sku){
@@ -102,7 +102,6 @@ Page({
     // 获取及设置选择的规格
     let attrvalue = e.currentTarget.dataset.attrvalue
     let attrKey = e.currentTarget.dataset.attrkey
-    debugger
     console.log('attrvalueid',attrvalue,attrKey);
     let selectedAttrValue = this.data.selectedAttrValue
     selectedAttrValue[attrKey] = attrvalue
@@ -112,12 +111,10 @@ Page({
     // 计算价格及库存
     let totalIdValue = 0
     let goodsAttrKeys = this.data.goodsSkuData.goodsAttrKeys
-    debugger
     for (let j=0;j<goodsAttrKeys.length;j++){
       let attrKey = goodsAttrKeys[j].attr_key
       if (selectedAttrValue[attrKey]){
         totalIdValue+=selectedAttrValue[attrKey].id
-        debugger
       }
     }
     console.log("totalIdValue", totalIdValue);
@@ -133,9 +130,7 @@ Page({
       tempTotalIdValue = 0
       goodsAttrPath.forEach(item=>tempTotalIdValue += item)
       console.log("tempTotalIdValue",tempTotalIdValue);
-      debugger
       if (tempTotalIdValue == totalIdValue){
-        debugger
         let selectedGoodsSku = goodsSku[j]
         this.setData({
           selectedGoodsSku
