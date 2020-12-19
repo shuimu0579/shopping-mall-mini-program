@@ -14,7 +14,7 @@ Page({
     let goodsId = e.currentTarget.dataset.id 
     let goods = await wx.wxp.request({
       //10.8.1.117  是本机ip 就是localhost  mac下 ifconfig en0 --> inet 后面就是
-      // url: `http://localhost:3000/goods/goods/${goodsId}`, 
+      // url: `http://10.8.1.117:3000/goods/goods/${goodsId}`, 
       url: `http://10.8.1.117:3000/goods/goods/${goodsId}`, 
     })
     console.log(goods);

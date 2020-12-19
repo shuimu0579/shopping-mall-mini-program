@@ -20,7 +20,7 @@ Page({
     // 测试返回对象
     // requestHomeApiByReq4(e){
     //   getApp().wxp.request4({
-    //     url: 'http://localhost:3000/user/home',
+    //     url: 'http://10.8.1.117:3000/user/home',
     //     onReturnObject(rtn){
     //       // rtn.abort()
     //     }
@@ -47,7 +47,7 @@ Page({
         goods_sku_desc
       }
       let res = await getApp().wxp.request4({
-        url:'http://localhost:3000/user/my/carts',
+        url:'http://10.8.1.117:3000/user/my/carts',
         method:'post',
         data
       })
@@ -88,7 +88,7 @@ Page({
     })
     // 拉取sku规格数据
     let goodsSkuDataRes = await wx.wxp.request({
-      url: `http://localhost:3000/goods/goods/${goodsId}/sku`,
+      url: `http://10.8.1.117:3000/goods/goods/${goodsId}/sku`,
     })
     if (goodsSkuDataRes){
       let goodsSkuData = goodsSkuDataRes.data.data 

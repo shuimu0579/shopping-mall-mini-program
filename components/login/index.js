@@ -108,7 +108,7 @@ Component({
       const requestLoginApi = (code) => {
         //发起网络请求
         wx.request({
-          url: 'http://localhost:3000/user/wexin-login2',
+          url: 'http://10.8.1.117:3000/user/wexin-login2',
           method: 'POST',
           header: {
             'content-type': 'application/json'
