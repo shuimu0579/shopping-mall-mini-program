@@ -40,12 +40,14 @@ Page({
     }
     let goods_id = this.data.goodsId
     let goods_sku_id = this.data.selectedGoodsSkuObject.sku.id
+    //  将goods_sku_desc信息 通过接口调用保存到 数据库里面去
     let goods_sku_desc = this.data.selectedGoodsSkuObject.text
     let data = {
       goods_id,
       goods_sku_id,
       goods_sku_desc
     }
+    debugger
     let res = await getApp().wxp.request4({
       url: 'http://localhost:3000/user/my/carts',
       method: 'post',
@@ -159,6 +161,7 @@ Page({
         })
         return
       }
+      //selectedGoodsSkuObject.text 就是选择规格面板 里面的规格信息， 将各个信息拼接起来
       selectedGoodsSkuObject.text += this.data.selectedAttrValue[item.attr_key].attr_value + ' '
     }
     this.setData({
