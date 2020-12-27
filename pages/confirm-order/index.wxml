@@ -2,17 +2,18 @@
 <!-- <text>miniprogram/pages/confirm-order/index.wxml</text> -->
 
 <van-cell-group>
-  <van-cell bind:click="toSelectAddress" is-link icon="location-o" size="large" title="{{address.userName}}" value="{{address.telNumber}}" label="{{address.addressInfo}}" />
+  <van-cell bind:click="toSelectAddress" is-link icon="location-o" size="large" title="{{address.userName}}"
+    value="{{address.telNumber}}" label="{{address.addressInfo}}" />
 </van-cell-group>
 
 <view style="padding:10px;">
   <block wx:for="{{carts}}" wx:key="id">
-  <van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.sku_desc}}"
-    title="{{item.goods_name}}" thumb="{{item.goods_image}}">
-    <view slot="footer">
-      <text>x{{item.num}}</text>
-    </view>
-  </van-card>
+    <van-card custom-class="goods-card" price="{{item.price*item.num/100}}元" desc="{{item.sku_desc}}"
+      title="{{item.goods_name}}" thumb="{{item.goods_image}}">
+      <view slot="footer">
+        <text>x{{item.num}}</text>
+      </view>
+    </van-card>
   </block>
 </view>
 
@@ -31,12 +32,9 @@
   <van-cell custom-class="total-price" title="" value="合计：￥900" />
 </van-cell-group>
 
-<van-submit-bar
-  price="{{ totalPrice }}"
-  button-text="提交订单"
-  bind:submit="onSubmit"
-/>
+<van-submit-bar price="{{ totalPrice }}" button-text="提交订单" bind:submit="onSubmit" />
 
 
 <!-- 小微商户支付 -->
-<xunhupay wx:if="{{ prepareSubmchPay }}" params="{{ submchPayParams }}" bindsuccess="bindPaySuccess" bindfail="bindPayFail" bindcomplete="bindPayComplete" />
+<xunhupay wx:if="{{ prepareSubmchPay }}" params="{{ submchPayParams }}" bindsuccess="bindPaySuccess"
+  bindfail="bindPayFail" bindcomplete="bindPayComplete" />

@@ -11,6 +11,6 @@
     "van-goods-action": "@vant/weapp/goods-action/index",
     "van-goods-action-icon": "@vant/weapp/goods-action-icon/index",
     "van-goods-action-button": "@vant/weapp/goods-action-button/index",
-    "LoginPanel":"../../components/login"
+    "LoginPanel": "../../components/login"
   }
 }

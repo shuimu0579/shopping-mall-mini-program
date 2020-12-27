@@ -31,7 +31,7 @@
           <van-icon data-id="{{item.id}}" bind:click="edit" slot="right-icon" name="edit" />
 
         </van-cell>
-        </mp-slideview>
+      </mp-slideview>
     </block>
   </van-cell-group>
 </van-radio-group>

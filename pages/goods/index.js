@@ -5,67 +5,71 @@ Page({
    * 页面的初始数据
    */
   data: {
-    showLoginPanel:false,
+    showLoginPanel: false,
     showSkuPanel: false,
-    goodsId:0,
-    goodsData:{},
+    goodsId: 0,
+    goodsData: {},
     goodsImages: [],
-    goodsContentInfo:{},
-    goodsSkuData:{},
-    selectedGoodsSku:{},
-    selectedAttrValue:{},
-    selectedGoodsSkuObject:{}
+    goodsContentInfo: {},
+    goodsSkuData: {},
+    selectedGoodsSku: {},
+    selectedAttrValue: {},
+    selectedGoodsSkuObject: {}
   },
 
-    // 测试返回对象
-    requestHomeApiByReq4(e){
-      getApp().wxp.request4({
-        url: 'http://localhost:3000/user/home',
-        onReturnObject(rtn){
-          // rtn.abort()
-        }
-      }).catch(err=>{
-        console.log(err);
+  // 测试返回对象
+  requestHomeApiByReq4(e) {
+    getApp().wxp.request4({
+      url: 'http://localhost:3000/user/home',
+      onReturnObject(rtn) {
+        // rtn.abort()
+      }
+    }).catch(err => {
+      console.log(err);
+    })
+  },
+
+  async addToCart(e) {
+    if (!this.data.selectedGoodsSkuObject.sku) {
+      wx.showModal({
+        title: '请选择商品规格',
+        showCancel: false
       })
-    },
-
-    async addToCart(e){
-      if (!this.data.selectedGoodsSkuObject.sku){
-        wx.showModal({
-          title: '请选择商品规格',
-          showCancel: false
-        })
-        this.showSkuPanelPopup()
-        return
-      }
-      let goods_id = this.data.goodsId
-      let goods_sku_id = this.data.selectedGoodsSkuObject.sku.id 
-      let goods_sku_desc = this.data.selectedGoodsSkuObject.text
-      let data = {
-        goods_id,
-        goods_sku_id,
-        goods_sku_desc
-      }
-      let res = await getApp().wxp.request4({
-        url:'http://localhost:3000/user/my/carts',
-        method:'post',
-        data
+      this.showSkuPanelPopup()
+      return
+    }
+    let goods_id = this.data.goodsId
+    let goods_sku_id = this.data.selectedGoodsSkuObject.sku.id
+    let goods_sku_desc = this.data.selectedGoodsSkuObject.text
+    let data = {
+      goods_id,
+      goods_sku_id,
+      goods_sku_desc
+    }
+    let res = await getApp().wxp.request4({
+      url: 'http://localhost:3000/user/my/carts',
+      method: 'post',
+      data
+    })
+    if (res.data.msg == 'ok') {
+      wx.showToast({
+        title: '已添加',
       })
-      if (res.data.msg == 'ok'){
-        wx.showToast({
-          title: '已添加',
-        })
-      }
-    },
+    }
+  },
 
-    // 显示规格面板
-    showSkuPanelPopup() {
-      this.setData({ showSkuPanel: true });
-    },
+  // 显示规格面板
+  showSkuPanelPopup() {
+    this.setData({
+      showSkuPanel: true
+    });
+  },
 
-      // 关闭规格面板
-  onCloseSkuPanel(){
-    this.setData({ showSkuPanel: false });
+  // 关闭规格面板
+  onCloseSkuPanel() {
+    this.setData({
+      showSkuPanel: false
+    });
   },
 
   /**
@@ -75,13 +79,13 @@ Page({
     let goodsId = options.goodsId
     this.data.goodsId = goodsId
     const eventChannel = this.getOpenerEventChannel()
-    eventChannel.on('goodsData', (res)=> {
+    eventChannel.on('goodsData', (res) => {
       console.log(res)
-      let goodsImages = res.data.goods_infos.filter(item=>(item.kind == 0))
-      let goodsContentInfo = res.data.goods_infos.filter(item=>(item.kind == 1))[0]
+      let goodsImages = res.data.goods_infos.filter(item => (item.kind == 0))
+      let goodsContentInfo = res.data.goods_infos.filter(item => (item.kind == 1))[0]
 
       this.setData({
-        goodsData:res.data,
+        goodsData: res.data,
         goodsImages,
         goodsContentInfo
       })
@@ -90,19 +94,19 @@ Page({
     let goodsSkuDataRes = await wx.wxp.request({
       url: `http://localhost:3000/goods/goods/${goodsId}/sku`,
     })
-    if (goodsSkuDataRes){
-      let goodsSkuData = goodsSkuDataRes.data.data 
+    if (goodsSkuDataRes) {
+      let goodsSkuData = goodsSkuDataRes.data.data
       this.setData({
         goodsSkuData
       })
     }
   },
 
-  onTapSkuTag(e){
+  onTapSkuTag(e) {
     // 获取及设置选择的规格
     let attrvalue = e.currentTarget.dataset.attrvalue
     let attrKey = e.currentTarget.dataset.attrkey
-    console.log('attrvalueid',attrvalue,attrKey);
+    console.log('attrvalueid', attrvalue, attrKey);
     let selectedAttrValue = this.data.selectedAttrValue
     selectedAttrValue[attrKey] = attrvalue
     this.setData({
@@ -111,26 +115,26 @@ Page({
     // 计算价格及库存
     let totalIdValue = 0
     let goodsAttrKeys = this.data.goodsSkuData.goodsAttrKeys
-    for (let j=0;j<goodsAttrKeys.length;j++){
+    for (let j = 0; j < goodsAttrKeys.length; j++) {
       let attrKey = goodsAttrKeys[j].attr_key
-      if (selectedAttrValue[attrKey]){
-        totalIdValue+=selectedAttrValue[attrKey].id
+      if (selectedAttrValue[attrKey]) {
+        totalIdValue += selectedAttrValue[attrKey].id
       }
     }
     console.log("totalIdValue", totalIdValue);
-    
+
     let goodsSku = this.data.goodsSkuData.goodsSku
     let tempTotalIdValue = 0
 
-    for(let j=0;j<goodsSku.length;j++){
-      let goodsAttrPath = goodsSku[j].goods_attr_path 
-      if (goodsAttrPath.length != goodsAttrKeys.length){
+    for (let j = 0; j < goodsSku.length; j++) {
+      let goodsAttrPath = goodsSku[j].goods_attr_path
+      if (goodsAttrPath.length != goodsAttrKeys.length) {
         break
       }
       tempTotalIdValue = 0
-      goodsAttrPath.forEach(item=>tempTotalIdValue += item)
-      console.log("tempTotalIdValue",tempTotalIdValue);
-      if (tempTotalIdValue == totalIdValue){
+      goodsAttrPath.forEach(item => tempTotalIdValue += item)
+      console.log("tempTotalIdValue", tempTotalIdValue);
+      if (tempTotalIdValue == totalIdValue) {
         let selectedGoodsSku = goodsSku[j]
         this.setData({
           selectedGoodsSku
@@ -141,17 +145,17 @@ Page({
   },
 
   // 确定选择当前规格
-  onConfirmGoodsSku(){
+  onConfirmGoodsSku() {
     let goodsSkuData = this.data.goodsSkuData
     let selectedGoodsSkuObject = this.data.selectedGoodsSkuObject
     selectedGoodsSkuObject.sku = Object.assign({}, this.data.selectedGoodsSku)
     selectedGoodsSkuObject.text = ''
-    for (let j=0;j<goodsSkuData.goodsAttrKeys.length;j++){
+    for (let j = 0; j < goodsSkuData.goodsAttrKeys.length; j++) {
       let item = goodsSkuData.goodsAttrKeys[j]
-      if (!this.data.selectedAttrValue[item.attr_key]){
+      if (!this.data.selectedAttrValue[item.attr_key]) {
         wx.showModal({
           title: '没有选择全部规格',
-          showCancel:false
+          showCancel: false
         })
         return
       }

@@ -1,22 +1,26 @@
 /* miniprogram/pages/address-list/index.wxss */
-.vertical-align{
-  display: flex;align-items: center;
+.vertical-align {
+  display: flex;
+  align-items: center;
 }
-.add-button{
-  width:100%;
+
+.add-button {
+  width: 100%;
   position: fixed !important;
   bottom: 0;
 }
-page{
+
+page {
   height: 100%;
 }
 
-.address-btns{
+.address-btns {
   position: fixed !important;
   width: 690rpx;
   bottom: 0;
   margin: 30rpx;
 }
-.new-address{
+
+.new-address {
   margin-top: 30rpx;
 }

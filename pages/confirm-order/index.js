@@ -6,37 +6,37 @@ Page({
    * 页面的初始数据
    */
   data: {
-    carts:[],
-    userMessage:'',
-    totalPrice:0,
-    address:{
-      userName:'选择'
+    carts: [],
+    userMessage: '',
+    totalPrice: 0,
+    address: {
+      userName: '选择'
     },
-    submchPayParams: {}, 
-    submchPayorderResult:{},
+    submchPayParams: {},
+    submchPayorderResult: {},
     prepareSubmchPay: false
   },
 
-  onSubmit(e){
+  onSubmit(e) {
     wx.showActionSheet({
       itemList: ['默认支付', '小微商户'],
-      success:(res)=> {
+      success: (res) => {
         console.log(res.tapIndex)
         let index = res.tapIndex
-        if (index == 0){// 默认支付
+        if (index == 0) { // 默认支付
           this.startNormalPay(e)
-        }else if (index == 1){// 小微商户
+        } else if (index == 1) { // 小微商户
           this.startSubmchPay(e)
         }
       },
-      fail (res) {
+      fail(res) {
         console.log(res.errMsg)
       }
     })
-    
+
   },
 
-  async startSubmchPay(e){
+  async startSubmchPay(e) {
     if (!this.data.address.id) {
       wx.showModal({
         title: '没有选择收货地址',
@@ -64,7 +64,7 @@ Page({
     })
     console.log(res);
     let submchPayParams = res.data.data.params
-    console.log("submchPayParams",submchPayParams);
+    console.log("submchPayParams", submchPayParams);
 
     this.setData({
       prepareSubmchPay: true,
@@ -73,7 +73,7 @@ Page({
   },
 
   // 小微商户支付成功后
-  async bindPaySuccess (res) {
+  async bindPaySuccess(res) {
     console.log('success', res)
     this.setData({
       submchPayorderResult: res.detail.info,
@@ -87,7 +87,7 @@ Page({
     let goodsCartsIds = carts.map(item => item.id)
     this.removeCartsGoods(goodsCartsIds)
   },
-  bindPayFail (res) {
+  bindPayFail(res) {
     console.log('fail', res)
     this.setData({
       submchPayorderResult: res.detail.info
@@ -108,7 +108,7 @@ Page({
       })
     }
   },
-  bindPayComplete () {
+  bindPayComplete() {
     console.log('complete')
     this.setData({
       prepareSubmchPay: false
@@ -150,7 +150,7 @@ Page({
       package: payArgs.package,
       signType: 'MD5',
       paySign: payArgs.paySign,
-      success:async res1=> {
+      success: async res1 => {
         console.log('success', res1);
         // requestPayment:ok
         if (res1.errMsg == 'requestPayment:ok') {
@@ -168,7 +168,7 @@ Page({
           })
         }
       },
-      fail:(err1)=> {
+      fail: (err1) => {
         console.log('fail', err1);
       }
     })
@@ -204,22 +204,22 @@ Page({
    */
   onLoad: function (options) {
     const eventChannel = this.getOpenerEventChannel()
-    eventChannel.on('cartData', (res)=> {
+    eventChannel.on('cartData', (res) => {
       // console.log(res)
       this.setData({
-        carts:res.data
+        carts: res.data
       })
       this.calcTotalPrice()
     })
   },
 
   // 准备跳转地址列表表，选取地址
-  toSelectAddress(){
+  toSelectAddress() {
     wx.navigateTo({
       url: '/pages/address-list/index',
-      success:res=>{
-        res.eventChannel.on('selectAddress', address=>{
-          address.addressInfo = address.region.join('')+address.detailInfo 
+      success: res => {
+        res.eventChannel.on('selectAddress', address => {
+          address.addressInfo = address.region.join('') + address.detailInfo
           this.setData({
             address
           })
@@ -227,17 +227,17 @@ Page({
       }
     })
   },
-    // 重新计算总价
-    calcTotalPrice(){
-      let totalPrice = 0
-      let carts = this.data.carts
-      carts.forEach(item=>{
-        totalPrice += item.price * item.num 
-      })
-      this.setData({
-        totalPrice
-      })
-    },
+  // 重新计算总价
+  calcTotalPrice() {
+    let totalPrice = 0
+    let carts = this.data.carts
+    carts.forEach(item => {
+      totalPrice += item.price * item.num
+    })
+    this.setData({
+      totalPrice
+    })
+  },
 
   /**
    * 生命周期函数--监听页面初次渲染完成

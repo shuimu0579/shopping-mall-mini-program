@@ -16,19 +16,19 @@ Page({
 
   async onSlideButtonTap(e) {
     // e.detail.index是选择按钮的序号
-    let id = e.currentTarget.dataset.id 
+    let id = e.currentTarget.dataset.id
     console.log('slide button tap', e.detail, id)
 
     let res = await wx.wxp.request4({
-      url:`http://localhost:3000/user/my/address/${id}`,
-      method:'delete'
+      url: `http://localhost:3000/user/my/address/${id}`,
+      method: 'delete'
     })
     console.log(res);
-    if (res && res.data.msg == 'ok'){
+    if (res && res.data.msg == 'ok') {
       // 处理本地数据
       let addressList = this.data.addressList
-      for(let j=0;j<addressList.length;j++){
-        if (addressList[j].id == id){
+      for (let j = 0; j < addressList.length; j++) {
+        if (addressList[j].id == id) {
           addressList.splice(j, 1)
           break
         }
@@ -63,18 +63,18 @@ Page({
           }
           let res1 = await wx.wxp.request4({
             url: 'http://localhost:3000/user/my/address',
-            method:'post',
+            method: 'post',
             data
           })
           console.log(res1);
-          if (res1.data.msg == 'ok'){
-            let item = res1.data.data 
+          if (res1.data.msg == 'ok') {
+            let item = res1.data.data
             addressList.push(item)
             this.setData({
               addressList,
-              selectedAddressId:item.id
+              selectedAddressId: item.id
             })
-          }else{
+          } else {
             wx.showToast({
               title: '添加不成功，是不是添加过了？',
             })
@@ -84,10 +84,10 @@ Page({
     }
   },
 
-  confirm(e){
+  confirm(e) {
     let selectedAddressId = this.data.selectedAddressId
     let addressList = this.data.addressList
-    let item = addressList.find(item=>item.id == selectedAddressId)
+    let item = addressList.find(item => item.id == selectedAddressId)
     let opener = this.getOpenerEventChannel()
     opener.emit('selectAddress', item)
     wx.navigateBack({
@@ -99,14 +99,14 @@ Page({
   onSavedAddress(address) {
     // console.log(address);
     let addressList = this.data.addressList
-    let hasExist = addressList.some((item,index)=>{
-      if (item.id == address.id){
+    let hasExist = addressList.some((item, index) => {
+      if (item.id == address.id) {
         addressList[index] = address
-        return true 
+        return true
       }
-      return false 
+      return false
     })
-    if (!hasExist){
+    if (!hasExist) {
       addressList.push(address)
     }
 
@@ -119,7 +119,7 @@ Page({
   navigateToNewAddressPage(e) {
     wx.navigateTo({
       url: '/pages/new-address/index',
-      success:(res)=>{
+      success: (res) => {
         res.eventChannel.on("savedNewAddress", this.onSavedAddress)
       }
     })
@@ -131,14 +131,14 @@ Page({
     });
   },
 
-  edit(e){
+  edit(e) {
     console.log(e.currentTarget.dataset.id);
     let id = e.currentTarget.dataset.id
     let addressList = this.data.addressList
-    let address = addressList.find(item=>item.id == id)
+    let address = addressList.find(item => item.id == id)
     wx.navigateTo({
       url: '/pages/new-address/index',
-      success:(res)=>{
+      success: (res) => {
         res.eventChannel.emit('editAddress', address)
         res.eventChannel.on('savedNewAddress', this.onSavedAddress)
       }
@@ -151,9 +151,9 @@ Page({
   onLoad: async function (options) {
     let res = await wx.wxp.request4({
       url: 'http://localhost:3000/user/my/address',
-      method:'get'
+      method: 'get'
     })
-    let addressList = res.data.data 
+    let addressList = res.data.data
     let selectedAddressId = addressList[0].id
     this.setData({
       addressList,
@@ -172,7 +172,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    
+
   },
 
   /**

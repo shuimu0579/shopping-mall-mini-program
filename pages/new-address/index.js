@@ -5,32 +5,32 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id:0,
-    userName:'',
-    telNumber:'',
+    id: 0,
+    userName: '',
+    telNumber: '',
     region: ['广东省', '广州市', '海珠区'],
-    detailInfo:''
+    detailInfo: ''
   },
 
-  async save(e){
+  async save(e) {
     // let data = this.data 
     let userName = this.data.userName
     let telNumber = this.data.telNumber
     let detailInfo = this.data.detailInfo
     let region = this.data.region
-    let id = this.data.id 
+    let id = this.data.id
 
-    if (!userName || !telNumber || !detailInfo){
+    if (!userName || !telNumber || !detailInfo) {
       wx.showModal({
         title: '数据项不能为空',
       })
-      return 
+      return
     }
-    if (!/[\d-]{11,18}/.test(telNumber)){
+    if (!/[\d-]{11,18}/.test(telNumber)) {
       wx.showModal({
         title: '电话格式对吗？',
       })
-      return 
+      return
     }
     let data = {
       userName,
@@ -41,19 +41,19 @@ Page({
     }
     let method = id ? 'put' : 'post'
     let res = await wx.wxp.request4({
-      url:'http://localhost:3000/user/my/address',
+      url: 'http://localhost:3000/user/my/address',
       method,
       data
     })
-    if (res.data.msg == 'ok'){
+    if (res.data.msg == 'ok') {
       let opener = this.getOpenerEventChannel()
-      let address = this.data 
-      if (!id) address.id = res.data.data.id 
+      let address = this.data
+      if (!id) address.id = res.data.data.id
       opener.emit("savedNewAddress", address)
       wx.navigateBack({
         delta: 1,
       })
-    }else{
+    } else {
       wx.showToast({
         title: '添加失败，是否电话重复了？',
       })
@@ -84,13 +84,13 @@ Page({
    */
   onShow: function () {
     let opener = this.getOpenerEventChannel()
-    opener.on("editAddress", address=>{
+    opener.on("editAddress", address => {
       this.setData({
-        userName:address.userName,
-        telNumber:address.telNumber,
-        detailInfo:address.detailInfo,
-        region:address.region,
-        id:address.id
+        userName: address.userName,
+        telNumber: address.telNumber,
+        detailInfo: address.detailInfo,
+        region: address.region,
+        id: address.id
       })
     })
   },
