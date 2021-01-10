@@ -15,7 +15,7 @@ Page({
     let goods = await wx.wxp.request({
       //10.8.1.117  是本机ip 就是localhost  mac下 ifconfig en0 --> inet 后面就是
       // url: `http://localhost:3000/goods/goods/${goodsId}`, 
-      url: `http://localhost:3000/goods/goods/${goodsId}`,
+      url: `${getApp().wxp.URL_BASE}/goods/goods/${goodsId}`,
     })
     console.log(goods);
 
@@ -38,7 +38,7 @@ Page({
       title: 'Loading..',
     })
     let categoriesData = await wx.wxp.request({
-      url: 'http://localhost:3000/goods/categories',
+      url: `${getApp().wxp.URL_BASE}/goods/categories`,
     })
     if (categoriesData) {
       categoriesData = categoriesData.data.data;
@@ -134,7 +134,7 @@ Page({
       }
     }
     let goodsData = await wx.wxp.request({
-      url: `http://localhost:3000/goods/goods?page_index=${pageIndex}&page_size=${pageSize}&category_id=${categoryId}`,
+      url: `${getApp().wxp.URL_BASE}/goods/goods?page_index=${pageIndex}&page_size=${pageSize}&category_id=${categoryId}`,
     })
     if (goodsData) {
       goodsData = goodsData.data.data;
