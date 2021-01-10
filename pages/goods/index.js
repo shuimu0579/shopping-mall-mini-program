@@ -47,7 +47,6 @@ Page({
       goods_sku_id,
       goods_sku_desc
     }
-    debugger
     let res = await getApp().wxp.request4({
       url: 'http://localhost:3000/user/my/carts',
       method: 'post',

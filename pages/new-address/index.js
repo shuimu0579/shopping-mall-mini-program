@@ -54,6 +54,7 @@ Page({
         delta: 1,
       })
     } else {
+      //在address-model里面,给tel_number字段添加唯一索引
       wx.showToast({
         title: '添加失败，是否电话重复了？',
       })

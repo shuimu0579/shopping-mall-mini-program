@@ -36,6 +36,7 @@ Page({
 
   },
 
+  // 小微商户 调用支付逻辑
   async startSubmchPay(e) {
     if (!this.data.address.id) {
       wx.showModal({
