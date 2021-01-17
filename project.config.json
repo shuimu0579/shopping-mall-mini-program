@@ -26,18 +26,17 @@
       "disablePlugins": [],
       "outputPath": ""
     },
+    "enableEngineNative": false,
+    "bundle": false,
     "useIsolateContext": true,
     "useCompilerModule": true,
     "userConfirmedUseCompilerModuleSwitch": false,
-    "userConfirmedBundleSwitch": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
-    "minifyWXSS": true,
-    "bundle": false,
-    "useApiHostProcess": false
+    "minifyWXSS": true
   },
   "appid": "wx6a37aa7eedd1378b",
-  "projectname": "%E7%AC%AC6%E7%AB%A0-1%E6%9C%885%E6%97%A5",
+  "projectname": "shopping-mall-mini-program-cloud",
   "libVersion": "2.13.2",
   "simulatorType": "wechat",
   "simulatorPluginLibVersion": {},
